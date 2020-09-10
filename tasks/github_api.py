@@ -18,7 +18,7 @@ def make_request(url):
         if response.status_code == RATE_LIMIT_STATUS_CODE:
             # Rate limit exceed
             print(
-                "The rate limit was execeed, you'll have to wait 1 hour to make requests again"
+                "The rate limit was exceeded, you'll have to wait 1 hour to make requests again"
             )
             sleep(TIME_TO_WAIT)
         else:
