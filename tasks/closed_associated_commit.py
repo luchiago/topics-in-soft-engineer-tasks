@@ -24,9 +24,6 @@ def get_amount_of_issues(issues):
 
 
 def get_percent(qte_commit_associated):
-    import pdb
-
-    pdb.set_trace()
     percent = (qte_commit_associated / float(TOTAL_ISSUES)) * 100
     return round(percent, 2)
 
