@@ -1,14 +1,26 @@
 import json
+from time import sleep
 
-import requests
-from tqdm import tqdm
-
+from requests import get
 from settings.settings import (AUTH, BASE_URL, GITHUB_OAUTH_TOKEN,
-                               ISSUES_PER_PAGE, REPO, TOTAL_ISSUES)
+                               ISSUES_PER_PAGE, RATE_LIMIT_STATUS_CODE, REPO,
+                               TIME_TO_WAIT, TOTAL_ISSUES)
+from tqdm import tqdm
 
 PATH = f"/repos/{REPO}/issues?state=all&per_page={ISSUES_PER_PAGE}"
 URL = f"{BASE_URL}{PATH}"
 FILENAME = "issues.json"
+
+
+def make_request(url):
+    while True:
+        response = get(url, headers=AUTH)
+        if response.status_code == RATE_LIMIT_STATUS_CODE:
+            # Rate limit exceed
+            print("The rate limit was execeed, you'll have to wait 1 hour to make requests again")
+            sleep(TIME_TO_WAIT)
+        else:
+            return response.json()
 
 
 def pull_issues():
@@ -17,7 +29,7 @@ def pull_issues():
     for page in tqdm(range(1, number_of_pages)):
         page_number = f"&page={page}"
         url = URL + page_number
-        response += requests.get(url, headers=AUTH).json()
+        response += make_request(url)
     save_file(response)
     return response
 

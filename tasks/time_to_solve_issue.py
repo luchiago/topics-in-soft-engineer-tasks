@@ -2,7 +2,6 @@ from datetime import datetime
 from functools import reduce
 
 from pull_issues import get_closed_issues, read_from_file
-
 from settings.settings import REPO, TOTAL_ISSUES
 
 

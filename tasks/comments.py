@@ -1,7 +1,6 @@
 from functools import reduce
 
 from pull_issues import read_from_file
-
 from settings.settings import REPO, TOTAL_ISSUES
 
 
