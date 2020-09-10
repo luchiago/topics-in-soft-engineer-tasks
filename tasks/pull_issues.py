@@ -22,6 +22,11 @@ def pull_issues():
     return response
 
 
+def get_closed_issues(issues):
+    closed_filter = lambda issue: issue["state"] == "closed"
+    return list(filter(closed_filter, issues))
+
+
 def save_file(list_of_issues):
     with open(FILENAME, "w") as file:
         json.dump(list_of_issues, file)
