@@ -1,7 +1,6 @@
-from functools import reduce
-
-from pull_issues import read_from_file
+from github_api import read_from_file
 from settings.settings import REPO, TOTAL_ISSUES
+from tqdm import tqdm
 
 
 def get_average(num_of_comments):
@@ -10,13 +9,13 @@ def get_average(num_of_comments):
 
 def amount_of_comments(issues):
     sum = 0
-    for issue in issues:
+    for issue in tqdm(issues):
         sum += issue["comments"]
     return sum
 
 
 if __name__ == "__main__":
-    issues = read_from_file()
+    issues = read_from_file("issues.json")
     num_of_comments = amount_of_comments(issues)
     average = get_average(num_of_comments)
     print(f"Repository: {REPO}")

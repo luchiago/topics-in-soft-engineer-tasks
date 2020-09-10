@@ -1,13 +1,8 @@
 from datetime import datetime
-from functools import reduce
 
-from pull_issues import get_closed_issues, read_from_file
+from github_api import get_closed_issues, read_from_file
 from settings.settings import REPO, TOTAL_ISSUES
-
-
-def get_closed_issues(issues):
-    closed_filter = lambda issue: issue["state"] == "closed"
-    return list(filter(closed_filter, issues))
+from tqdm import tqdm
 
 
 def get_average(days):
@@ -22,13 +17,13 @@ def get_delta_in_days(issue):
 
 def get_amount_days(issues):
     days = 0
-    for issue in issues:
+    for issue in tqdm(issues):
         days += get_delta_in_days(issue)
     return days
 
 
 if __name__ == "__main__":
-    issues = read_from_file()
+    issues = read_from_file("issues.json")
     issues = get_closed_issues(issues)
     amount_days = get_amount_days(issues)
     average = get_average(amount_days)
